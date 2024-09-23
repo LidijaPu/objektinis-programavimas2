@@ -43,11 +43,18 @@ int main() {
         studentai.push_back(s);
     }
 
+    cout << "Ar norite skaičiuoti galutinį balą pagal vidurkį (1) ar medianą (2)?";
+    cin >> pasirinkimas;
    
     cout << left << setw(15) << "Pavardė" 
-         << left << setw(15) << "Vardas" 
-         << left << setw(15) << "Galutinis (Vid.)" << endl;
-         << left << setw(20) << "Galutinis (Med.)" << endl;
+         << left << setw(15) << "Vardas" ;
+    if (pasirinkimas == 1){
+        cout << left << setw(20) << "Galutinis (Vid.)"
+             << left << setw(20) << "Galutinis (Med.)" << endl;
+    } else if (pasirinkimas ==2) {
+        cout << left << setw(20) << "Galutinis (Vid.)" 
+             << left << setw(20) << "Galutinis (Med.)" << endl;
+    }
     cout << "---------------------------------------------" << endl;
 
 
@@ -56,9 +63,15 @@ int main() {
         double galutinisMed = galutineMediana(s.namu_darbai, s.egzaminas);
         
         cout << left << setw(15) << s.pavarde 
-             << left << setw(15) << s.vardas 
-             << fixed << setprecision(2) << setw(20) << galutinisVid 
-             << setw(20) << galutinisMed << endl;
+             << left << setw(15) << s.vardas;
+        
+         if (pasirinkimas == 1) {
+            cout << fixed << setprecision(2) << setw(20) << galutinisVid 
+                 << setw(20) << "-" << endl;
+        } else if (pasirinkimas == 2) {
+            cout << setw(20) << "-" 
+                 << fixed << setprecision(2) << setw(20) << galutinisMed << endl;
+        }
     }
     
     return 0;
@@ -80,9 +93,7 @@ double galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas) {
 }
 
 double galutineMediana(vector<int> namu_darbai, int egzaminas) {
-   
    sort(namu_darbai.begin(), namu_darbai.end());
-    
     double mediana;
     int dydis = namu_darbai.size();
     
