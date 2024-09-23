@@ -2,6 +2,9 @@
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+#include <string>
+#include <numeric>
+#include <limits>
 
 using namespace std;
 
@@ -29,20 +32,28 @@ int main() {
         cout << "Įveskite studento " << i + 1 << " pavardę: ";
         cin >> s.pavarde;
 
-        cout << "Įveskite namų darbų kiekį: ";
-        cin >> nd_kiekis;
-        s.namu_darbai.resize(nd_kiekis);
+       cout << "Įveskite namų darbų balus (norėdami baigti įvestį, įveskite neigiamą reikšmę):" << endl;
 
-        for (int j = 0; j < nd_kiekis; j++) {
-            cout << "Įveskite namų darbų balą (" << j + 1 << "): ";
-            cin >> s.namu_darbai[j];
+        while (true) {
+            int rezultatas;
+            cout << "Namų darbų balas: ";
+            cin.clear();
+            cin >> rezultatas;
+
+            if (!cin || rezultatas < 0) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                break; 
+            }
+            s.namu_darbai.push_back(rezultatas);
         }
 
         cout << "Įveskite studento " << i + 1 << " egzamino balą: ";
         cin >> s.egzaminas;
         studentai.push_back(s);
     }
-
+    
+    int pasirinkimas;
     cout << "Ar norite skaičiuoti galutinį balą pagal vidurkį (1) ar medianą (2)?";
     cin >> pasirinkimas;
    
