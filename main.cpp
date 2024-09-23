@@ -5,6 +5,7 @@
 #include <string>
 #include <numeric>
 #include <limits>
+#include <fstream>
 
 using namespace std;
 
@@ -17,22 +18,29 @@ struct Studentas {
 
 double galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas);
 double galutineMediana(vector<int> namu_darbai, int egzaminas);
+void nuskaitytiIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai);
+void generuotiAtsitiktiniusRezultatus(Studentas& s);
 
 int main() {
     vector<Studentas> studentai;
     int n, nd_kiekis;
 
-    cout << "Įveskite studentų skaičių: ";
-    cin >> n;
+     cout << "Ar norite įvesti duomenis ranka (1), skaityti iš failo (2), ar generuoti atsitiktinai (3)? ";
+    int pasirinkimas;
+    cin >> pasirinkimas;
 
-    for (int i = 0; i < n; i++) {
-        Studentas s;
-        cout << "Įveskite studento " << i + 1 << " vardą: ";
-        cin >> s.vardas;
-        cout << "Įveskite studento " << i + 1 << " pavardę: ";
-        cin >> s.pavarde;
+    if (pasirinkimas == 1) {
+        cout << "Įveskite studentų skaičių: ";
+        cin >> n;
 
-       cout << "Įveskite namų darbų balus (norėdami baigti įvestį, įveskite neigiamą reikšmę):" << endl;
+        for (int i = 0; i < n; i++) {
+            Studentas s;
+            cout << "Įveskite studento " << i + 1 << " vardą: ";
+            cin >> s.vardas;
+            cout << "Įveskite studento " << i + 1 << " pavardę: ";
+            cin >> s.pavarde;
+    
+           cout << "Įveskite namų darbų balus (norėdami baigti įvestį, įveskite neigiamą reikšmę):" << endl;
 
         while (true) {
             int rezultatas;
@@ -48,12 +56,34 @@ int main() {
             s.namu_darbai.push_back(rezultatas);
         }
 
-        cout << "Įveskite studento " << i + 1 << " egzamino balą: ";
+        cout << "Įveskite egzamino balą: ";
         cin >> s.egzaminas;
         studentai.push_back(s);
     }
+  } else if (pasirinkimas == 2) {
+        string failoPavadinimas;
+        cout << "Įveskite failo pavadinimą: ";
+        cin >> failoPavadinimas;
+        nuskaitytiIsFailo(failoPavadinimas, studentai);
+
+        
+    } else if (pasirinkimas == 3) {
+        cout << "Įveskite studentų skaičių: ";
+        cin >> n;
+
+        for (int i = 0; i < n; i++) {
+            Studentas s;
+            cout << "Įveskite studento " << i + 1 << " vardą: ";
+            cin >> s.vardas;
+            cout << "Įveskite studento " << i + 1 << " pavardę: ";
+            cin >> s.pavarde;
+
+            generuotiAtsitiktiniusRezultatus(s);
+
+            studentai.push_back(s);
+        }
+    }
     
-    int pasirinkimas;
     cout << "Ar norite skaičiuoti galutinį balą pagal vidurkį (1) ar medianą (2)?";
     cin >> pasirinkimas;
    
@@ -66,7 +96,7 @@ int main() {
         cout << left << setw(20) << "Galutinis (Vid.)" 
              << left << setw(20) << "Galutinis (Med.)" << endl;
     }
-    cout << "---------------------------------------------" << endl;
+    cout << "---------------------------------------------------------------" << endl;
 
 
     for (const auto& s : studentai) {
@@ -115,6 +145,49 @@ double galutineMediana(vector<int> namu_darbai, int egzaminas) {
     }
     
     return 0.4 * mediana + 0.6 * egzaminas;
+}
+
+void generuotiAtsitiktiniusRezultatus(Studentas& s) {
+    int namuDarbaiCount = rand() % 10 + 1;
+    cout << "Sugeneruoti " << namuDarbaiCount << " namų darbų balai: \n";
+    for (int i = 0; i < namuDarbaiCount; i++) {
+        int balas = rand() % 10 + 1;
+        s.namu_darbai.push_back(balas); 
+        cout << rand() % 10 + 1<< " ";
+    }
+    cout << endl;
+
+    s.egzaminas = rand() % 10 + 1; 
+    cout << "Sugeneruotas egzamino įvertinimas: " << s.egzaminas  << endl;
+}
+
+void nuskaitytiIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai) {
+    ifstream failas(failoPavadinimas);
+    if (failas.is_open()) {
+        string eilute;
+        
+        getline(failas, eilute);
+
+        string vardas, pavarde;
+        while (failas >> vardas >> pavarde) {
+            Studentas s;
+            s.vardas = vardas;
+            s.pavarde = pavarde;
+            
+            int balas;
+            while (failas >> balas) {
+                s.namu_darbai.push_back(balas);
+            }
+            s.egzaminas = s.namu_darbai.back(); 
+            s.namu_darbai.pop_back(); 
+
+            studentai.push_back(s);
+            failas.clear(); 
+        }
+        failas.close();
+    } else {
+        cout << "Nepavyko atidaryti failo!" << endl;
+    }
 }
 
 
