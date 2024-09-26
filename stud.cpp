@@ -1,5 +1,34 @@
 #include "stud.h"
 
+void isvestis(const vector<Studentas>& studentai, int pasirinkimas) {
+    cout << left << setw(15) << "Pavarde"
+        << left << setw(15) << "Vardas"
+        << left << setw(20) << "Galutinis (Vid.)"
+        << left << setw(20) << "Galutinis (Med.)" << endl;
+
+    cout << "---------------------------------------------------------------" << endl;
+
+    for (const auto& s : studentai) {
+        if (s.namu_darbai.empty()) {
+            cerr << "Klaida: Studentas " << s.vardas << " " << s.pavarde << " neturi namu darbu balu." << endl;
+            continue;
+        }
+        double galutinisVid = galutinisVidurkis(s.namu_darbai, s.egzaminas);
+        double galutinisMed = galutineMediana(s.namu_darbai, s.egzaminas);
+
+        cout << left << setw(15) << s.pavarde
+            << left << setw(15) << s.vardas;
+
+        if (pasirinkimas == 1) {
+            cout << fixed << setprecision(2) << setw(20) << galutinisVid
+                << setw(20) << "-" << endl;
+        }
+        else if (pasirinkimas == 2) {
+            cout << setw(20) << "-"
+                << fixed << setprecision(2) << setw(20) << galutinisMed << endl;
+        }
+    }
+}
 
 double galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas) {
     if (namu_darbai.empty()) return 0.0;
