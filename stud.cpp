@@ -68,48 +68,58 @@ void generuotiAtsitiktiniusRezultatus(Studentas& s) {
 }
 
 void nuskaitytiIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai) {
-    ifstream failas(failoPavadinimas);
+    try {
+        ifstream failas(failoPavadinimas);
 
-    if (!failas.is_open()) {
-        throw runtime_error("Nepavyko atidaryti failo!");
-    }
+        if (!failas.is_open()) {
+            throw runtime_error("Nepavyko atidaryti failo!");
+        }
 
-    string eilute;
-    getline(failas, eilute);  
-
-    string vardas, pavarde;
-    while (failas >> vardas >> pavarde) {
-        Studentas s;
-        s.vardas = vardas;
-        s.pavarde = pavarde;
-
-        int balas;
-        vector<int> namuDarbai;
-
-        
-        while (failas >> balas) {
-            if (balas == -1) { 
-                break;
+        string eilute;
+        getline(failas, eilute);  
+    
+        string vardas, pavarde;
+        while (failas >> vardas >> pavarde) {
+            Studentas s;
+            s.vardas = vardas;
+            s.pavarde = pavarde;
+    
+            int balas;
+            vector<int> namuDarbai;
+    
+            
+            while (failas >> balas) {
+                if (balas == -1) { 
+                    break;
+                }
+                namuDarbai.push_back(balas);
             }
-            namuDarbai.push_back(balas);
-        }
+    
+            if (!namuDarbai.empty()) {
+                s.egzaminas = namuDarbai.back();  
+                namuDarbai.pop_back();  
+            }
+            else {
+                throw runtime_error("Klaida faile: nerasta namu darbu arba egzamino balo.");
+            }
+    
+            s.namu_darbai = namuDarbai;
+            studentai.push_back(s);
 
-        if (!namuDarbai.empty()) {
-            s.egzaminas = namuDarbai.back();  
-            namuDarbai.pop_back();  
+            
+            failas.clear();
         }
-        else {
-            throw runtime_error("Klaida faile: nerasta namu darbu arba egzamino balo.");
-        }
-
-        s.namu_darbai = namuDarbai;
-        studentai.push_back(s);
-
-        
-        failas.clear();
+    
+        failas.close();
     }
-
-    failas.close();
+    catch (const ifstream::failure& e) {
+    cerr << "Klaida: nepavyko nuskaityti failo. Priezastis: " << e.what() << endl;
+    throw;
+    }
+     catch (const runtime_error& e) {
+        cerr << "Klaida: " << e.what() << endl;
+        throw;
+    }
 }
 
 
