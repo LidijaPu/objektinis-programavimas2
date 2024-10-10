@@ -9,6 +9,7 @@ struct Studentas {
     string pavarde;
     vector<int> namu_darbai;
     int egzaminas;
+    double galutinis;
 };
 
 void isvestis(const vector<Studentas>& studentai, int pasirinkimas);
