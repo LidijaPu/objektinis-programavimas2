@@ -10,7 +10,10 @@
 #include <algorithm>
 #include <limits>
 #include <stdexcept> 
+#include <chrono>
+#include <random>
 
 using namespace std;
+using namespace std::chrono;
 
 #endif
