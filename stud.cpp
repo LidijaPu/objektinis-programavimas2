@@ -56,17 +56,16 @@ double galutineMediana(vector<int> namu_darbai, int egzaminas) {
 }
 
 void generuotiAtsitiktiniusRezultatus(Studentas& s) {
-    int namuDarbaiCount = rand() % 10 + 1;
-    cout << "Sugeneruoti " << namuDarbaiCount << " nam darbu balai: \n";
-    for (int i = 0; i < namuDarbaiCount; i++) {
-        int balas = rand() % 10 + 1;
-        s.namu_darbai.push_back(balas);
-        cout << balas << " ";
-    }
-    cout << endl;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(1, 10); 
 
-    s.egzaminas = rand() % 10 + 1;
-    cout << "Sugeneruotas egzamino ivertinimas: " << s.egzaminas << endl;
+    for (int i = 0; i < 5; i++) { 
+        int balas = dist(gen);
+        s.namu_darbai.push_back(balas);
+    }
+
+    s.egzaminas = dist(gen);
 }
 
 void nuskaitytiIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai) {
