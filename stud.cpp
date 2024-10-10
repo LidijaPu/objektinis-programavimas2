@@ -34,7 +34,8 @@ double galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas) {
     if (namu_darbai.empty()) return 0.0;
     double sum = accumulate(namu_darbai.begin(), namu_darbai.end(), 0);
     double vidurkis = sum / namu_darbai.size();
-    return 0.4 * vidurkis + 0.6 * egzaminas;
+    double galutinis = 0.4 * vidurkis + 0.6 * egzaminas;
+    return galutinis;
 }
 
 double galutineMediana(vector<int> namu_darbai, int egzaminas) {
@@ -50,7 +51,8 @@ double galutineMediana(vector<int> namu_darbai, int egzaminas) {
         mediana = namu_darbai[dydis / 2];
     }
 
-    return 0.4 * mediana + 0.6 * egzaminas;
+    double galutinis = 0.4 * mediana + 0.6 * egzaminas;
+    return galutinis;
 }
 
 void generuotiAtsitiktiniusRezultatus(Studentas& s) {
