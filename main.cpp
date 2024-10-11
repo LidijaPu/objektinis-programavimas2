@@ -93,7 +93,7 @@ else if (pasirinkimas == 3) {
 
     for (int kiekis : kiekiai) {
         string failoPavadinimas = "studentai_" + to_string(kiekis) + ".txt";
-        matuotiVeikimoGreiti(failoPavadinimas, kiekis, pasirinkimas, rusiuotiPagal);  // Keturi parametrai: failoPavadinimas, kiekis, pasirinkimas, rusiuotiPagal
+        matuotiVeikimoGreiti(failoPavadinimas, kiekis, pasirinkimas, rusiuotiPagal);  
     }
 }
 
