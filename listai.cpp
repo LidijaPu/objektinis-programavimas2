@@ -202,3 +202,60 @@ void surusioti_failaiList(list<Studentas>& studentaiList, const string& name) {
     failas.close();
 }
 
+
+void rusiavimas_vardasList(std::list<Studentas>& studentaiList) {
+    studentaiList.sort(palyginimas_vardas);
+}
+
+
+void rusiavimas_pavardeList(std::list<Studentas>& studentaiList) {
+    studentaiList.sort(palyginimas_pavarde);
+}
+
+
+void rusiavimas_pazimysList(std::list<Studentas>& studentaiList) {
+    studentaiList.sort(palyginimas_pazimys);
+}
+
+
+
+
+void matuotiVeikimoGreitiList(const string& name, int kiekis, int pasirinkimas, int rusiuotiPagal) {
+    cout << "Matuojamas veikimo greitis su failu: " << name << "\n";
+
+    auto total_start = high_resolution_clock::now();
+
+    auto start = high_resolution_clock::now();
+    list<Studentas> studentaiList;
+    nuskaitytiIsFailoList(name, studentaiList, pasirinkimas);
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - start).count() / 1e6;
+    cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(6) << duration << "s\n";
+
+    list<Studentas> vargsiukaiList, kietiakiaiList;
+
+    start = high_resolution_clock::now();
+    rusiuotiStudentusList(name, pasirinkimas, rusiuotiPagal, to_string(kiekis), vargsiukaiList, kietiakiaiList);
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - start).count() / 1e6;
+    cout << "Studentu rusiavimas i dvi grupes uztruko: " << fixed << setprecision(6) << duration << "s\n";
+
+    start = high_resolution_clock::now();
+    string vargsiukaiFailas = "vargsiukai_" + to_string(kiekis) + ".txt";
+    surusioti_failaiList(vargsiukaiList, vargsiukaiFailas);
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - start).count() / 1e6;
+    cout << "Duomenu irasymas i faila '" << vargsiukaiFailas << "' uztruko: " << fixed << setprecision(6) << duration << "s\n";
+
+    start = high_resolution_clock::now();
+    string kietiakiaiFailas = "kietiakiai_" + to_string(kiekis) + ".txt";
+    surusioti_failaiList(kietiakiaiList, kietiakiaiFailas);
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - start).count() / 1e6;
+    cout << "Duomenu irasymas i faila '" << kietiakiaiFailas << "' uztruko: " << fixed << setprecision(6) << duration << "s\n";
+
+    auto total_end = high_resolution_clock::now();
+    auto total_duration = duration_cast<microseconds>(total_end - total_start).count() / 1e6;
+    cout << "Bendras uzduociu atlikimo laikas: " << fixed << setprecision(6) << total_duration << "s\n\n";
+}
+
