@@ -12,6 +12,8 @@
 #include <stdexcept> 
 #include <chrono>
 #include <random>
+#include <sstream>
+#include <list>
 
 using namespace std;
 using namespace std::chrono;
