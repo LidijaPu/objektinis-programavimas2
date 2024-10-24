@@ -4,7 +4,8 @@ void isvestis(const vector<Studentas>& studentai, int pasirinkimas) {
     cout << left << setw(15) << "Pavarde"
         << left << setw(15) << "Vardas"
         << left << setw(20) << "Galutinis (Vid.)"
-        << left << setw(20) << "Galutinis (Med.)" << endl;
+        << left << setw(20) << "Galutinis (Med.)"
+        << left << setw(20) << "Atmintis" << endl;
 
     cout << "---------------------------------------------------------------" << endl;
 
@@ -27,6 +28,8 @@ void isvestis(const vector<Studentas>& studentai, int pasirinkimas) {
             cout << setw(20) << "-"
                 << fixed << setprecision(2) << setw(20) << galutinisMed << endl;
         }
+        cout << setw(20) << &s;
+        cout << endl;
     }
 }
 
