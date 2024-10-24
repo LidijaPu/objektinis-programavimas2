@@ -87,6 +87,90 @@ void nuskaitytiIsFailoList(const string& name, list<Studentas>& studentaiList, i
 
         fin.close();
     }
+
+
+        void rusiavimasList(list<Studentas>& studentaiList) {
+    studentaiList.sort(palyginimas);
+}
+
+void rusiuotiStudentusList(const string& name, int pasirinkimas, int rusiuotiPagal, const string& filePrefix,
+    list<Studentas>& vargsiukaiList, list<Studentas>& kietiakiaiList) {
+
+    ifstream failas(name);
+
+    if (!failas.is_open()) {
+        cerr << "Klaida atidarant faila!" << endl;
+        return;
+    }
+
+    string vardas, pavarde;
+    int egzaminas;
+    string praleistiEilute;
+
+    getline(failas, praleistiEilute);
+
+    while (failas >> pavarde >> vardas) {
+        vector<int> laikinasNamuDarbai(5);
+        int balas;
+
+        for (int i = 0; i < 5; ++i) {
+            if (failas >> laikinasNamuDarbai[i]) {
+                continue;
+            }
+            else {
+                cerr << "Klaida nuskaitant namų darbų balą!" << endl;
+                return;
+            }
+        }
+
+        if (!(failas >> egzaminas)) {
+            cerr << "Klaida nuskaitant egzamino balą!" << endl;
+            return;
+        }
+
+        Studentas sl;
+        sl.vardas = vardas;
+        sl.pavarde = pavarde;
+
+        sl.namu_darbai = laikinasNamuDarbai;
+
+        sl.egzaminas = egzaminas;
+
+        if (pasirinkimas == 1) {
+            sl.galutinis = galutinisVidurkis(sl.namu_darbai, sl.egzaminas);
+        }
+        else {
+            sl.galutinis = galutineMediana(sl.namu_darbai, sl.egzaminas);
+        }
+
+        if (sl.galutinis < 5.0) {
+            vargsiukaiList.push_back(sl);
+        }
+        else {
+            kietiakiaiList.push_back(sl);
+        }
+    }
+
+    failas.close();
+
+    if (rusiuotiPagal == 1) {
+        rusiavimas_vardasList(vargsiukaiList);
+        rusiavimas_vardasList(kietiakiaiList);
+    }
+    else if (rusiuotiPagal == 2) {
+        rusiavimas_pavardeList(vargsiukaiList);
+        rusiavimas_pavardeList(kietiakiaiList);
+    }
+    else if (rusiuotiPagal == 3) {
+        rusiavimas_pazimysList(vargsiukaiList);
+        rusiavimas_pazimysList(kietiakiaiList);
+    }
+    else {
+        cout << "Neteisingas pasirinkimas." << endl;
+    }
+}
+
+    
     catch (const ifstream::failure& e) {
         cerr << "Nepavyko nuskaityti failo: " << e.what() << endl;
     }
