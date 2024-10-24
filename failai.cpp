@@ -28,10 +28,10 @@ void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis) {
             << setw(15) << s.vardas;
 
         for (const auto& pazymys : s.namu_darbai) {
-            failas << setw(6) << pazymys;  
+            failas << setw(6) << pazymys;
         }
 
-        failas << setw(10) << s.egzaminas << endl;  
+        failas << setw(10) << s.egzaminas << endl;
     }
 
     failas.close();
@@ -77,7 +77,7 @@ void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rus
         }
     }
 
-    failas.close(); 
+    failas.close();
 
 
     if (rusiuotiPagal == 1) {
@@ -88,12 +88,12 @@ void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rus
         rusiavimas_pavarde(vargsiukai);
         rusiavimas_pavarde(kietiakiai);
     }
-    else if (rusiuotiPagal == 3) { 
+    else if (rusiuotiPagal == 3) {
         rusiavimas_pazimys(vargsiukai);
         rusiavimas_pazimys(kietiakiai);
     }
     else {
-        cout << "Neteisingas pasirinkimas. Nenaudojamas rusiavimas." << endl;
+        cout << "Neteisingas pasirinkimas." << endl;
     }
 }
 
@@ -113,6 +113,7 @@ void surusioti_failai(vector<Studentas>& studentai, const string& failoPavadinim
         << setw(20) << "Vardas"
         << setw(10) << "Galutinis"
         << endl;
+
 
     for (const auto& studentas : studentai) {
         failas << left
@@ -137,7 +138,6 @@ bool palyginimas_pavarde(const Studentas& a, const Studentas& b) {
     return a.pavarde < b.pavarde;
 }
 
-
 void rusiavimas_pavarde(vector<Studentas>& studentai) {
     sort(studentai.begin(), studentai.end(), palyginimas_pavarde);
 }
@@ -145,7 +145,6 @@ void rusiavimas_pavarde(vector<Studentas>& studentai) {
 bool palyginimas_pazimys(const Studentas& a, const Studentas& b) {
     return a.galutinis < b.galutinis;
 }
-
 
 void rusiavimas_pazimys(vector<Studentas>& studentai) {
     sort(studentai.begin(), studentai.end(), palyginimas_pazimys);
@@ -161,7 +160,7 @@ void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasiri
     nuskaitytiIsFailo(failoPavadinimas, studentai);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start).count() / 1e6;
-    cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(3) << duration << "s\n";
+    cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
     vector<Studentas> vargsiukai, kietiakiai;
 
@@ -169,23 +168,25 @@ void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasiri
     rusiuotiStudentus(failoPavadinimas, pasirinkimas, rusiuotiPagal, to_string(kiekis), vargsiukai, kietiakiai);
     end = high_resolution_clock::now();
     duration = duration_cast<microseconds>(end - start).count() / 1e6;
-    cout << "Studentu rusiavimas i dvi grupes uztruko: " << fixed << setprecision(3) << duration << "s\n";
+    cout << "Studentu rusiavimas i dvi grupes uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
     start = high_resolution_clock::now();
     string vargsiukaiFailas = "vargsiukai_" + to_string(kiekis) + ".txt";
     surusioti_failai(vargsiukai, vargsiukaiFailas);
     end = high_resolution_clock::now();
     duration = duration_cast<microseconds>(end - start).count() / 1e6;
-    cout << "Duomenu irasymas i faila '" << vargsiukaiFailas << "' uztruko: " << fixed << setprecision(3) << duration << "s\n";
+    cout << "Duomenu irasymas i faila '" << vargsiukaiFailas << "' uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
     start = high_resolution_clock::now();
     string kietiakiaiFailas = "kietiakiai_" + to_string(kiekis) + ".txt";
     surusioti_failai(kietiakiai, kietiakiaiFailas);
     end = high_resolution_clock::now();
     duration = duration_cast<microseconds>(end - start).count() / 1e6;
-    cout << "Duomenu irasymas i faila '" << kietiakiaiFailas << "' uztruko: " << fixed << setprecision(3) << duration << "s\n";
+    cout << "Duomenu irasymas i faila '" << kietiakiaiFailas << "' uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
     auto total_end = high_resolution_clock::now();
     auto total_duration = duration_cast<microseconds>(total_end - total_start).count() / 1e6;
-    cout << "Bendras uzduociu atlikimo laikas: " << fixed << setprecision(3) << total_duration << "s\n\n";
+    cout << "Bendras uzduociu atlikimo laikas: " << fixed << setprecision(6) << total_duration << "s\n\n";
 }
+
+
