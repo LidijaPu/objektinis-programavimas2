@@ -175,3 +175,30 @@ void rusiuotiStudentusList(const string& name, int pasirinkimas, int rusiuotiPag
         cerr << "Nepavyko nuskaityti failo: " << e.what() << endl;
     }
 }
+
+
+void surusioti_failaiList(list<Studentas>& studentaiList, const string& name) {
+    ofstream failas(name);
+
+    if (!failas.is_open()) {
+        cerr << "Klaida: nepavyko sukurti failo " << name << endl;
+        return;
+    }
+
+    failas << left
+        << setw(20) << "Pavarde"
+        << setw(20) << "Vardas"
+        << setw(10) << "Galutinis"
+        << endl;
+
+    for (const auto& studentas : studentaiList) {
+        failas << left
+            << setw(20) << studentas.pavarde
+            << setw(20) << studentas.vardas
+            << setw(10) << fixed << setprecision(2) << studentas.galutinis
+            << endl;
+    }
+
+    failas.close();
+}
+
