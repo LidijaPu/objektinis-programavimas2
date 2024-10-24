@@ -3,48 +3,30 @@ Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba 
 Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) 
 Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. 
 
+Kompiuterio parametrai:  
+CPU - Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz  
+RAM - 12GB  
+HDD - 476GB  
 
 
-| Konteineris   | 1000          | 10000         | 100000        | 1000000       | 10000000      |
-|---------------|---------------|---------------|---------------|---------------|---------------|
-| **Std::Vector** | 0.0312398 sek | 0.124997 sek  | 1.21976 sek   | 14.8906 sek   | 166.621 sek   |
-| **Std::List**   | 0.025656 sek  | 0.0922341 sek | 0.728112 sek  | 7.62903 sek   | 125.133 sek   |
 
 
-Greičio analizė:
 
-Matuojamas veikimo greitis su failu: studentai_1000.txt  
-Duomenu nuskaitymas uztruko: 0.004s  
-Studentu rusiavimas i dvi grupes uztruko: 0.003s  
-Duomenu irasymas i faila 'vargsiukai_1000.txt' uztruko: 0.003s  
-Duomenu irasymas i faila 'kietiakiai_1000.txt' uztruko: 0.005s  
-Bendras uzduociu atlikimo laikas: 0.019s  
+| Greičio analizė                | **studentai_1000.txt**     | **studentai_10000.txt**    | **studentai_100000.txt**   | **studentai_1000000.txt**  | **studentai_10000000.txt** |
+|---------------------------------|----------------------------|----------------------------|----------------------------|----------------------------|----------------------------|
+| **Duomenų nuskaitymas (Vector)** | 0.005580s                  | 0.063199s                  | 0.554496s                  | 5.253830s                  | 41.319246s                 |
+| **Duomenų nuskaitymas (List)**   | 0.008551s                  | 0.072018s                  | 0.489219s                  | 5.148625s                  | 48.423361s                 |
+| **Rūšiavimas (Vector)**          | 0.004653s                  | 0.060933s                  | 0.534427s                  | 4.367090s                  | 36.101731s                 |
+| **Rūšiavimas (List)**            | 0.004679s                  | 0.037208s                  | 0.419490s                  | 4.280785s                  | 33.125880s                 |
+| **Įrašymas į 'vargsiukai' (Vector)** | 0.003922s                  | 0.043867s                  | 0.327777s                  | 2.421948s                  | 25.416993s                 |
+| **Įrašymas į 'vargsiukai' (List)**   | 0.004851s                  | 0.034512s                  | 0.389997s                  | 2.838789s                  | 27.325997s                 |
+| **Įrašymas į 'kietiakiai' (Vector)** | 0.005377s                  | 0.064861s                  | 0.493673s                  | 3.917123s                  | 36.520960s                 |
+| **Įrašymas į 'kietiakiai' (List)**   | 0.006921s                  | 0.038028s                  | 0.411899s                  | 4.010851s                  | 42.467769s                 |
+| **Bendras laikas (Vector)**      | 0.024676s                  | 0.239696s                  | 1.916275s                  | 15.965627s                 | 139.364410s                |
+| **Bendras laikas (List)**        | 0.030487s                  | 0.186473s                  | 1.716101s                  | 16.285035s                 | 151.348629s                |
 
-Matuojamas veikimo greitis su failu: studentai_10000.txt  
-Duomenu nuskaitymas uztruko: 0.040s  
-Studentu rusiavimas i dvi grupes uztruko: 0.026s  
-Duomenu irasymas i faila 'vargsiukai_10000.txt' uztruko: 0.028s  
-Duomenu irasymas i faila 'kietiakiai_10000.txt' uztruko: 0.041s  
-Bendras uzduociu atlikimo laikas: 0.139s  
 
-Matuojamas veikimo greitis su failu: studentai_100000.txt  
-Duomenu nuskaitymas uztruko: 0.336s  
-Studentu rusiavimas i dvi grupes uztruko: 0.272s  
-Duomenu irasymas i faila 'vargsiukai_100000.txt' uztruko: 0.282s  
-Duomenu irasymas i faila 'kietiakiai_100000.txt' uztruko: 0.413s  
-Bendras uzduociu atlikimo laikas: 1.308s  
 
-Matuojamas veikimo greitis su failu: studentai_1000000.txt  
-Duomenu nuskaitymas uztruko: 2.320s  
-Studentu rusiavimas i dvi grupes uztruko: 1.990s  
-Duomenu irasymas i faila 'vargsiukai_1000000.txt' uztruko: 2.216s  
-Duomenu irasymas i faila 'kietiakiai_1000000.txt' uztruko: 3.161s  
-Bendras uzduociu atlikimo laikas: 9.690s  
 
-Matuojamas veikimo greitis su failu: studentai_10000000.txt  
-Duomenu nuskaitymas uztruko: 36.272s  
-Studentu rusiavimas i dvi grupes uztruko: 33.774s  
-Duomenu irasymas i faila 'vargsiukai_10000000.txt' uztruko: 38.204s  
-Duomenu irasymas i faila 'kietiakiai_10000000.txt' uztruko: 54.672s  
-Bendras uzduociu atlikimo laikas: 162.927s  
+
 
