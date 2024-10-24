@@ -3,6 +3,14 @@ Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba 
 Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) 
 Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. 
 
+
+
+| Konteineris   | 1000          | 10000         | 100000        | 1000000       | 10000000      |
+|---------------|---------------|---------------|---------------|---------------|---------------|
+| **Std::Vector** | 0.0312398 sek | 0.124997 sek  | 1.21976 sek   | 14.8906 sek   | 166.621 sek   |
+| **Std::List**   | 0.025656 sek  | 0.0922341 sek | 0.728112 sek  | 7.62903 sek   | 125.133 sek   |
+
+
 Greičio analizė:
 
 Matuojamas veikimo greitis su failu: studentai_1000.txt  
