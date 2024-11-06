@@ -3,6 +3,13 @@
 #include "failai.h"
 #include "listai.h"
 
+
+void atmintisList(const std::list<Studentas>& lst, const string& name) {
+    size_t node_size = sizeof(Studentas) + 2 * sizeof(void*);
+    size_t memory_in_bytes = lst.size() * node_size;
+    std::cout << "Naudojama atmintis " << name << ": " << memory_in_bytes << " baitai" << std::endl;
+}
+
 void isvestisList(const list<Studentas>& studentaiList, int pasirinkimas) {
     cout << left << setw(15) << "Pavarde"
         << left << setw(15) << "Vardas"
@@ -87,94 +94,93 @@ void nuskaitytiIsFailoList(const string& name, list<Studentas>& studentaiList, i
 
         fin.close();
     }
+            catch (const ifstream::failure& e) {
+        cerr << "Nepavyko nuskaityti failo: " << e.what() << endl;
+    }
+}
 
 
-        void rusiavimasList(list<Studentas>& studentaiList) {
+void rusiavimasList(list<Studentas>& studentaiList) {
     studentaiList.sort(palyginimas);
 }
 
-void rusiuotiStudentusList(const string& name, int pasirinkimas, int rusiuotiPagal, const string& filePrefix,
-    list<Studentas>& vargsiukaiList, list<Studentas>& kietiakiaiList) {
-
-    ifstream failas(name);
-
+void nuskaitytiStudentusList(const string& failoPavadinimas, list<Studentas>& studentaiList, int pasirinkimas) {
+    ifstream failas(failoPavadinimas);
     if (!failas.is_open()) {
         cerr << "Klaida atidarant faila!" << endl;
         return;
     }
 
     string vardas, pavarde;
+    vector<int> namuDarbai(5);
     int egzaminas;
     string praleistiEilute;
-
     getline(failas, praleistiEilute);
 
-    while (failas >> pavarde >> vardas) {
-        vector<int> laikinasNamuDarbai(5);
-        int balas;
+    while (failas >> pavarde >> vardas >> namuDarbai[0] >> namuDarbai[1] >> namuDarbai[2] >> namuDarbai[3] >> namuDarbai[4] >> egzaminas) {
+        Studentas s;
+        s.vardas = vardas;
+        s.pavarde = pavarde;
+        s.namu_darbai = namuDarbai;
+        s.egzaminas = egzaminas;
+        s.galutinis = (pasirinkimas == 1) ? galutinisVidurkis(s.namu_darbai, s.egzaminas) : galutineMediana(s.namu_darbai, s.egzaminas);
+        studentaiList.push_back(s);
+    }
+    failas.close();
+}
 
-        for (int i = 0; i < 5; ++i) {
-            if (failas >> laikinasNamuDarbai[i]) {
-                continue;
+void rusiuotiStudentusList(list<Studentas>& studentaiList, int pasirinkimas, int rusiuotiPagal, int strategija,
+    list<Studentas>& vargsiukai, list<Studentas>& kietiakiai) {
+
+    if (strategija == 1) {
+        for (const auto& studentas : studentaiList) {
+            if (studentas.galutinis < 5.0) {
+                vargsiukai.push_back(studentas);
             }
             else {
-                cerr << "Klaida nuskaitant namų darbų balą!" << endl;
-                return;
+                kietiakiai.push_back(studentas);
             }
         }
-
-        if (!(failas >> egzaminas)) {
-            cerr << "Klaida nuskaitant egzamino balą!" << endl;
-            return;
+    }
+    else if (strategija == 2) {
+        // Strategija 2: Perkelti studentus į `vargsiukai` ir pašalinti iš `studentaiList`, paliekant tik `kietiakiai`
+        for (auto it = studentaiList.begin(); it != studentaiList.end(); ) {
+            if (it->galutinis < 5.0) {
+                vargsiukai.push_back(move(*it));
+                it = studentaiList.erase(it);
+            }
+            else {
+                ++it;
+            }
         }
-
-        Studentas sl;
-        sl.vardas = vardas;
-        sl.pavarde = pavarde;
-
-        sl.namu_darbai = laikinasNamuDarbai;
-
-        sl.egzaminas = egzaminas;
-
-        if (pasirinkimas == 1) {
-            sl.galutinis = galutinisVidurkis(sl.namu_darbai, sl.egzaminas);
-        }
-        else {
-            sl.galutinis = galutineMediana(sl.namu_darbai, sl.egzaminas);
-        }
-
-        if (sl.galutinis < 5.0) {
-            vargsiukaiList.push_back(sl);
-        }
-        else {
-            kietiakiaiList.push_back(sl);
-        }
+        kietiakiai.splice(kietiakiai.end(), studentaiList);  // Likę studentai yra `kietiakiai`
+    }
+    else if (strategija == 3) {
+        // Strategija 3: Naudoti `stable_partition` ir skirstyti
+        auto it = stable_partition(studentaiList.begin(), studentaiList.end(),
+            [](const Studentas& s) { return s.galutinis < 5.0; });
+        vargsiukai.splice(vargsiukai.end(), studentaiList, studentaiList.begin(), it);
+        kietiakiai.splice(kietiakiai.end(), studentaiList);  // Likusi dalis yra `kietiakiai`
     }
 
-    failas.close();
-
+    // Rūšiavimas po skirstymo pagal pasirinktą kriterijų
     if (rusiuotiPagal == 1) {
-        rusiavimas_vardasList(vargsiukaiList);
-        rusiavimas_vardasList(kietiakiaiList);
+        rusiavimas_vardasList(vargsiukai);
+        rusiavimas_vardasList(kietiakiai);
     }
     else if (rusiuotiPagal == 2) {
-        rusiavimas_pavardeList(vargsiukaiList);
-        rusiavimas_pavardeList(kietiakiaiList);
+        rusiavimas_pavardeList(vargsiukai);
+        rusiavimas_pavardeList(kietiakiai);
     }
     else if (rusiuotiPagal == 3) {
-        rusiavimas_pazimysList(vargsiukaiList);
-        rusiavimas_pazimysList(kietiakiaiList);
+        rusiavimas_pazimysList(vargsiukai);
+        rusiavimas_pazimysList(kietiakiai);
     }
     else {
         cout << "Neteisingas pasirinkimas." << endl;
     }
 }
 
-    
-    catch (const ifstream::failure& e) {
-        cerr << "Nepavyko nuskaityti failo: " << e.what() << endl;
-    }
-}
 
 
 void surusioti_failaiList(list<Studentas>& studentaiList, const string& name) {
@@ -218,24 +224,21 @@ void rusiavimas_pazimysList(std::list<Studentas>& studentaiList) {
 }
 
 
-
-
-void matuotiVeikimoGreitiList(const string& name, int kiekis, int pasirinkimas, int rusiuotiPagal) {
+void matuotiVeikimoGreitiList(const string& name, int kiekis, int pasirinkimas, int rusiuotiPagal, int strategija) {
     cout << "Matuojamas veikimo greitis su failu: " << name << "\n";
 
     auto total_start = high_resolution_clock::now();
 
     auto start = high_resolution_clock::now();
     list<Studentas> studentaiList;
-    nuskaitytiIsFailoList(name, studentaiList, pasirinkimas);
+    nuskaitytiStudentusList(name, studentaiList, pasirinkimas);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start).count() / 1e6;
     cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
     list<Studentas> vargsiukaiList, kietiakiaiList;
-
     start = high_resolution_clock::now();
-    rusiuotiStudentusList(name, pasirinkimas, rusiuotiPagal, to_string(kiekis), vargsiukaiList, kietiakiaiList);
+    rusiuotiStudentusList(studentaiList, pasirinkimas, rusiuotiPagal, strategija, vargsiukaiList, kietiakiaiList);
     end = high_resolution_clock::now();
     duration = duration_cast<microseconds>(end - start).count() / 1e6;
     cout << "Studentu rusiavimas i dvi grupes uztruko: " << fixed << setprecision(6) << duration << "s\n";
@@ -257,5 +260,9 @@ void matuotiVeikimoGreitiList(const string& name, int kiekis, int pasirinkimas, 
     auto total_end = high_resolution_clock::now();
     auto total_duration = duration_cast<microseconds>(total_end - total_start).count() / 1e6;
     cout << "Bendras uzduociu atlikimo laikas: " << fixed << setprecision(6) << total_duration << "s\n\n";
-}
 
+    atmintisList(studentaiList, "studentaiList");
+    atmintisList(vargsiukaiList, "vargsiukaiList");
+    atmintisList(kietiakiaiList, "kietiakiaiList");
+    cout << "\n" << endl;
+}
