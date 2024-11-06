@@ -5,8 +5,11 @@
 #include "stud.h"
 
 
+void atmintis(const vector<Studentas>& v, const string& name);
 void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis);
-void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rusiuotiPagal, const string& filePrefix, vector<Studentas>& vargsiukai, vector<Studentas>& kietiakiai);
+void nuskaitytiStudentus(const string& failoPavadinimas, vector<Studentas>& studentai, int pasirinkimas);
+void rusiuotiStudentus(vector<Studentas>& studentai, int pasirinkimas, int rusiuotiPagal, int strategija,
+    vector<Studentas>& vargsiukai, vector<Studentas>& kietiakiai);
 void surusioti_failai(vector<Studentas>& studentai, const string& failoPavadinimas);
 bool palyginimas_vardas(const Studentas& a, const Studentas& b);
 void rusiavimas_vardas(vector<Studentas>& studentai);
