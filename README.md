@@ -32,19 +32,19 @@ HDD - 476GB
 | **studentai_1000** |   110864 baitai               |  120000 baitai        |        0 baitai           |   0 baitai       |     0 baitai        |     0 baitai           |
 | **vargsiukai_1000** |     49296 baitai             |  47040 baitai         |      49296 baitai          |   47040 baitai       |    40768 baitai       |   47040 baitai         |
 | **kietiakai_10000** |         73944 baitai         |  72960 baitai         |      110864 baitai         |  72960 baitai        |       63232 baitai       |  72960 baitai    |
-|-------|------------------|------|------------------|------|------------------|------|
+|-------|------|------|------|------|------|------|
 | **studentai_10000** |   1262352 baitai             |  1200000 baitai       |      0 baitai            |   0 baitai       |     0 baitai       |     0 baitai          |
 | **vargsiukai_10000** |     561080 baitai           |  472200 baitai        |     561080 baitai         |  472200 baitai        |       409240 baitai   |   472200 baitai        |
 | **kietiakai_100000** |         841568 baitai       |  727800 baitai        |        1262352 baitai      |   727800 baitai        |    630760 baitai      |  727800 baitai      |
-|-------|------------------|------|------------------|------|------------------|------|
+|-------|------|------|------|------|------|------|
 | **studentai_100000** |   14378520 baitai           |  12000000 baitai      |       0 baitai           |   0 baitai       |     0 baitai        |    0 baitai         |
 | **vargsiukai_100000** |     4260360 baitai         |  4772640 baitai       |      4260360 baitai      |   4772640 baitai       |     4136288 baitai        |   4772640 baitai       |
 | **kietiakai_1000000** |       6390488 baitai       |  7227360 baitai       |       14378520 baitai    |   7227360 baitai       |      6263712 baitai      |    7227360 baitai        |
-|-------|------------------|------|------------------|------|------------------|------|
+|-------|------|------|------|------|------|------|
 | **studentai_1000000** |   109186376 baitai         |  120000000 baitai      |          0 baitai         |   0 baitai       |       0 baitai      |   0 baitai          |
 | **vargsiukai_1000000** |  48527336 baitai          |  48039600 baitai       |      48527336 baitai      |   48039600 baitai       |      41634320 baitai      |  48039600 baitai      |
 | **kietiakai_10000000** |  72790952 baitai          |  71960400 baitai       |      48527336 baitai       |  71960400 baitai        |      62365680 baitai     |  71960400 baitai       |
-|-------|------------------|------|------------------|------|------------------|------|
+|-------|------|------|------|------|------|------|
 | **studentai_10000000** |   1243700328 baitai       |  1199999880 baitai     |    0 baitai                |   0 baitai       |    0 baitai        |     0 baitai            |
 | **vargsiukai_10000000** |  552755736 baitai        |  479866680 baitai      |     552755736 baitai       |   479866680 baitai       |     415884456 baitai   |   479866680 baitai        |
 | **kietiakai_100000000** |   829133552 baitai       |  720133200 baitai      |     1243700328 baitai        |  720133200 baitai        |      624115440 baitai       |  720133200 baitai     |
