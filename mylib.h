@@ -13,6 +13,9 @@
 #include <chrono>
 #include <random>
 #include <sstream>
+#include <cstdio>
+#include <memory>
+#include <array>
 #include <list>
 
 using namespace std;
