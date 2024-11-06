@@ -5,11 +5,14 @@
 #include "stud.h"
 #include "failai.h"
 
+
+void atmintisList(const std::list<Studentas>& lst, const string& name);
 void isvestisList(const list<Studentas>& studentaiList, int pasirinkimas);
 void nuskaitytiIsFailoList(const string& name, list<Studentas>& studentaiList, int pasirinkimas);
 void rusiavimasList(list<Studentas>& studentaiList);
-void rusiuotiStudentusList(const string& failoPavadinimas, int pasirinkimas, int rusiuotiPagal, const string& filePrefix,
-    list<Studentas>& vargsiukaiList, list<Studentas>& kietiakiaiList);
+void nuskaitytiStudentusList(const string& failoPavadinimas, list<Studentas>& studentaiList, int pasirinkimas);
+void rusiuotiStudentusList(list<Studentas>& studentaiList, int pasirinkimas, int rusiuotiPagal, int strategija,
+    list<Studentas>& vargsiukai, list<Studentas>& kietiakiai);
 void surusioti_failaiList(list<Studentas>& studentaiList, const string& failoPavadinimas);
 void rusiavimas_vardasList(list<Studentas>& studentaiList);
 void rusiavimas_pavardeList(list<Studentas>& studentaiList);
