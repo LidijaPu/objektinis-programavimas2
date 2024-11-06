@@ -1,6 +1,12 @@
 #include "stud.h"
 #include "failai.h"
 
+
+void atmintis(const vector<Studentas>& v, const string& name) {
+    size_t memory_in_bytes = v.capacity() * sizeof(Studentas);
+    cout << "Naudojama atmintis " << name << ": " << memory_in_bytes << " baitai" << endl;
+}
+
 void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis) {
     ofstream failas(failoPavadinimas);
 
@@ -38,10 +44,8 @@ void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis) {
 }
 
 
-void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rusiuotiPagal, const string& filePrefix,
-    vector<Studentas>& vargsiukai, vector<Studentas>& kietiakiai) {
+void nuskaitytiStudentus(const string& failoPavadinimas, vector<Studentas>& studentai, int pasirinkimas) {
     ifstream failas(failoPavadinimas);
-
     if (!failas.is_open()) {
         cerr << "Klaida atidarant faila!" << endl;
         return;
@@ -50,8 +54,6 @@ void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rus
     string vardas, pavarde;
     vector<int> namuDarbai(5);
     int egzaminas;
-
-
     string praleistiEilute;
     getline(failas, praleistiEilute);
 
@@ -61,24 +63,47 @@ void rusiuotiStudentus(const string& failoPavadinimas, int pasirinkimas, int rus
         s.pavarde = pavarde;
         s.namu_darbai = namuDarbai;
         s.egzaminas = egzaminas;
+        s.galutinis = (pasirinkimas == 1) ? galutinisVidurkis(s.namu_darbai, s.egzaminas) : galutineMediana(s.namu_darbai, s.egzaminas);
+        studentai.push_back(s);
+    }
+    failas.close();
+}
 
-        if (pasirinkimas == 1) {
-            s.galutinis = galutinisVidurkis(s.namu_darbai, s.egzaminas);
-        }
-        else {
-            s.galutinis = galutineMediana(s.namu_darbai, s.egzaminas);
-        }
+void rusiuotiStudentus(vector<Studentas>& studentai, int pasirinkimas, int rusiuotiPagal, int strategija,
+    vector<Studentas>& vargsiukai, vector<Studentas>& kietiakiai) {
 
-        if (s.galutinis < 5.0) {
-            vargsiukai.push_back(s);
-        }
-        else {
-            kietiakiai.push_back(s);
+    if (strategija == 1) {
+        for (const auto& studentas : studentai) {
+            if (studentas.galutinis < 5.0) {
+                vargsiukai.push_back(studentas);
+            }
+            else {
+                kietiakiai.push_back(studentas);
+            }
         }
     }
+    else if (strategija == 2) {
+        auto it = remove_if(studentai.begin(), studentai.end(),
+            [&vargsiukai](Studentas& studentas) {
+                if (studentas.galutinis < 5.0) {
+                    vargsiukai.push_back(studentas);
+                    return true;
+                }
+                return false;
+            });
+        studentai.erase(it, studentai.end());
+        kietiakiai = move(studentai);        
 
-    failas.close();
+        vector<Studentas>().swap(studentai);
+    }
+    else if (strategija == 3) {
+        auto it = stable_partition(studentai.begin(), studentai.end(),
+            [](const Studentas& s) { return s.galutinis < 5.0; });
+        vargsiukai.assign(studentai.begin(), it);
+        kietiakiai.assign(it, studentai.end());
 
+        vector<Studentas>().swap(studentai);
+    }
 
     if (rusiuotiPagal == 1) {
         rusiavimas_vardas(vargsiukai);
@@ -150,22 +175,23 @@ void rusiavimas_pazimys(vector<Studentas>& studentai) {
     sort(studentai.begin(), studentai.end(), palyginimas_pazimys);
 }
 
-void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasirinkimas, int rusiuotiPagal) {
+void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasirinkimas, int rusiuotiPagal, int strategija) {
     cout << "Matuojamas veikimo greitis su failu: " << failoPavadinimas << "\n";
 
     auto total_start = high_resolution_clock::now();
 
+
     auto start = high_resolution_clock::now();
     vector<Studentas> studentai;
-    nuskaitytiIsFailo(failoPavadinimas, studentai);
+    nuskaitytiStudentus(failoPavadinimas, studentai, pasirinkimas);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start).count() / 1e6;
     cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(6) << duration << "s\n";
 
-    vector<Studentas> vargsiukai, kietiakiai;
 
+    vector<Studentas> vargsiukai, kietiakiai;
     start = high_resolution_clock::now();
-    rusiuotiStudentus(failoPavadinimas, pasirinkimas, rusiuotiPagal, to_string(kiekis), vargsiukai, kietiakiai);
+    rusiuotiStudentus(studentai, pasirinkimas, rusiuotiPagal, strategija, vargsiukai, kietiakiai);
     end = high_resolution_clock::now();
     duration = duration_cast<microseconds>(end - start).count() / 1e6;
     cout << "Studentu rusiavimas i dvi grupes uztruko: " << fixed << setprecision(6) << duration << "s\n";
@@ -187,6 +213,11 @@ void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasiri
     auto total_end = high_resolution_clock::now();
     auto total_duration = duration_cast<microseconds>(total_end - total_start).count() / 1e6;
     cout << "Bendras uzduociu atlikimo laikas: " << fixed << setprecision(6) << total_duration << "s\n\n";
+
+    atmintis(studentai, "studentai");
+    atmintis(vargsiukai, "vargsiukai");
+    atmintis(kietiakiai, "kietiakiai");
+    cout << "\n" << endl;
 }
 
 
