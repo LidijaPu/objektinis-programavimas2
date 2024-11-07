@@ -6,9 +6,9 @@
 **1.** Atsisiųskite V1.0 releas'o zip failą.
 <br> **2.** Sukurkite direktorija su pavadinimu *"StudentuRusiavimas"* ir išskleiskite į ją atsiųstą zip failą.
 <br> **3.** Jei dar neturite įdiekite CMake: [cmake.org](https://cmake.org/download/).
-<br> **4.** Direktorijoje *"build"* (rasite tarp atsiustų failų), atidarykite terminalą ir komandinėje eilutėje įrašykite ***"cmake"*** arba jei idiegtas MinGW rasykite ***"cmake -G "MinGW Makefiles" .."***
-<br> **5.** Po to terminalo komandinėje eilutėje įrašykite ***"make"*** arba ***"mingw32-make"** ir *"build"* direktorijoje atsiras *"StudentuRusiavimas.exe"* failas. Programą galite paleisti paspaudus ant jo arba terminalo komandinėje eilutėje įrašius ***"./Sort.exe"**
-<br> **Pastaba.** Pirmą kartą paleidžaint programą ir norėdami atlinkti analizę būtina sugeneruoti naujus failus
+<br> **4.** Direktorijoje *"build"* (rasite tarp atsiustų failų), atidarykite terminalą ir komandinėje eilutėje įrašykite ***"cmake"*** arba jei idiegtas MinGW rasykite ***"cmake -G "MinGW Makefiles" .."***.
+<br> **5.** Po to terminalo komandinėje eilutėje įrašykite ***"make"*** arba ***"mingw32-make"** ir *"build"* direktorijoje atsiras *"StudentuRusiavimas.exe"* failas. Programą galite paleisti paspaudus ant jo arba terminalo komandinėje eilutėje įrašius ***"./Sort.exe"**.
+<br> **Pastaba.** Pirmą kartą paleidžaint programą ir norėdami atlinkti analizę būtina sugeneruoti naujus failus.
 
 
 ## Programos versijos ir analizė
@@ -35,7 +35,10 @@ Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba 
 | **Bendras (List)**          | 0.030487s   | 0.186473s   | 1.716101s   | 16.285035s   | 151.348629s  |
 
 ### _V1.0_
-Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip *Studentus* išrušiuja į atskirus failus - *kietiakus* arba *vargsiukus*. Programoje galima pasirinkti kurio tipo konteinerį naudoti - *list* arba *vector* ir fiksuojamas spartos laikas. Pridėtos 3 startegijos *Studentų* duomenims apdoroti: *(1)* Bendro studentai konteinerio (vector ir list tipų) skaidymas į du naujus to paties tipo konteinerius: "vargšiukų" ir "kietiakų"; *(2)* Bendro studentų konteinerio (vector ir list) skaidymas (rūšiavimas) panaudojant tik vieną naują konteinerį: "vargšiukai"; *(3)* Bendro studentų konteinerio skaidymas (rūšiavimas) panaudojant 2 strategiją įtraukiant į ją "efektyvius" darbo su konteineriais metodus (std::stable_partition).
+Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip *Studentus* išrušiuja į atskirus failus - *kietiakus* arba *vargsiukus*. Programoje galima pasirinkti kurio tipo konteinerį naudoti - *list* arba *vector* ir fiksuojamas spartos laikas. Pridėtos 3 startegijos *Studentų* duomenims apdoroti: 
+* *(1)* Bendro studentai konteinerio (vector ir list tipų) skaidymas į du naujus to paties tipo konteinerius: "vargšiukų" ir "kietiakų";
+* *(2)* Bendro studentų konteinerio (vector ir list) skaidymas (rūšiavimas) panaudojant tik vieną naują konteinerį: "vargšiukai";
+* *(3)* Bendro studentų konteinerio skaidymas (rūšiavimas) panaudojant 2 strategiją įtraukiant į ją "efektyvius" darbo su konteineriais metodus (std::stable_partition).
 
 
 **Spartos analizė (bendras laikas)**
