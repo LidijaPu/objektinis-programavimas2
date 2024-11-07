@@ -11,15 +11,15 @@
 <br> **Pastaba.** Pirmą kartą paleidžaint programą ir norėdami atlinkti analizę būtina sugeneruoti naujus failus.
 
 
-## Programos versijos ir analizė
+### Programos versijos ir analizė
 ### _V0.1_
 Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą.
 
 ### _V0.2_
-Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip pat *Studentus* išrušiuja į atskirus failus - *kietiakus* arba *vargsiukus*.
+Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip pat *Studentai* išrūšiuojamija į atskirus failus pagal galutinį pažymį: *kietiakai* - studentai, kurių galutinis pažymys yra 5 arba daugiau arba *vargsiukai* - studentai, kurių galutinis pažymys mažesnis nei 5.
 
 ### _V0.3_
-Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip *Studentus* išrušiuja į atskirus failus - *kietiakus* arba *vargsiukus*. Programoje galima pasirinkti kurio tipo konteinerį naudoti - *list* arba *vector* ir fiksuojamas spartos laikas.
+Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip pat *Studentai* išrūšiuojamija į atskirus failus pagal galutinį pažymį: *kietiakai* - studentai, kurių galutinis pažymys yra 5 arba daugiau arba *vargsiukai* - studentai, kurių galutinis pažymys mažesnis nei 5. Vartotojas gali pasrinkti, kurio tipo konteinerį naudoti - *list* ar *vector*, o programoje fiksuojama, kiek laiko užtrunka kiekvienas žingsnis.
 
 | Greičio analizė                  | **1000**    | **10000**   | **100000**  | **1000000**  | **10000000** |
 |----------------------------|-------------|-------------|-------------|--------------|--------------|
@@ -35,10 +35,10 @@ Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba 
 | **Bendras (List)**          | 0.030487s   | 0.186473s   | 1.716101s   | 16.285035s   | 151.348629s  |
 
 ### _V1.0_
-Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip *Studentus* išrušiuja į atskirus failus - *kietiakus* arba *vargsiukus*. Programoje galima pasirinkti kurio tipo konteinerį naudoti - *list* arba *vector* ir fiksuojamas spartos laikas. Pridėtos 3 startegijos *Studentų* duomenims apdoroti: 
-* *(1)* Bendro studentai konteinerio (vector ir list tipų) skaidymas į du naujus to paties tipo konteinerius: "vargšiukų" ir "kietiakų";
-* *(2)* Bendro studentų konteinerio (vector ir list) skaidymas (rūšiavimas) panaudojant tik vieną naują konteinerį: "vargšiukai";
-* *(3)* Bendro studentų konteinerio skaidymas (rūšiavimas) panaudojant 2 strategiją įtraukiant į ją "efektyvius" darbo su konteineriais metodus (std::stable_partition).
+Programa nuskaito įvestus studentų duomenis, ganeruoja juos atsitiktinai arba nuskaito juos iš failo. Galutinį įvertinimą skaičiuoja pagal pasirinktą metodą (vid. arba med.) Duomenys atspausdinami išrikiuoti pagal pavardę ir vardą. Taip pat *Studentai* išrūšiuojamija į atskirus failus pagal galutinį pažymį: *kietiakai* - studentai, kurių galutinis pažymys yra 5 arba daugiau arba *vargsiukai* - studentai, kurių galutinis pažymys mažesnis nei 5. Vartotojas gali pasrinkti, kurio tipo konteinerį naudoti - *list* ar *vector*, o programoje fiksuojama, kiek laiko užtrunka kiekvienas žingsnis. Pridėtos trys studentų duoenų apdorojimo strategijos: 
+* *(1)* Bendro *studentai* konteinerio (naudojant vector arba list tipą) padalijimas į du naujus konteinerius – *vargsiukai* ir *kietiakai*;
+* *(2)* Bendro *studentai* konteinerio padalijimas panaudojant tik vieną naują konteinerį – *vargsiukai*, o likusieji duomenys laikomi kaip *kietiakai*;
+* *(3)* Naudojamas efektyvesnis skaidymo metodas su std::stable_partition.
 
 
 **Spartos analizė (bendras laikas)**
