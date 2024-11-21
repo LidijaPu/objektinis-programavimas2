@@ -20,6 +20,7 @@ public:
 
 
     ~Studentas() {
+        nd_.clear();
         // std::cout << "Studentas " << vardas_ << " " << pavarde_ << " sunaikintas." << std::endl;
     }
 
