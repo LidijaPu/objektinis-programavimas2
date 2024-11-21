@@ -1,5 +1,5 @@
-#ifndef LIST_H_INCLUDED
-#define LIST_H_INCLUDED
+#ifndef LISTAI_H_INCLUDED
+#define LISTAI_H_INCLUDED
 
 #include "mylib.h"
 #include "stud.h"
@@ -8,9 +8,8 @@
 void isvestisList(const list<Studentas>& studentaiList, int pasirinkimas);
 void nuskaitytiIsFailoList(const string& name, list<Studentas>& studentaiList, int pasirinkimas);
 void rusiavimasList(list<Studentas>& studentaiList);
-void nuskaitytiStudentusList(const string& failoPavadinimas, list<Studentas>& studentaiList, int pasirinkimas);
-void rusiuotiStudentusList(list<Studentas>& studentaiList, int pasirinkimas, int rusiuotiPagal, int strategija,
-    list<Studentas>& vargsiukai, list<Studentas>& kietiakiai);
+void rusiuotiStudentusList(const string& failoPavadinimas, int pasirinkimas, int rusiuotiPagal, int strategija, const string& filePrefix,
+    list<Studentas>& vargsiukaiList, list<Studentas>& kietiakiaiList);
 void surusioti_failaiList(list<Studentas>& studentaiList, const string& failoPavadinimas);
 void rusiavimas_vardasList(list<Studentas>& studentaiList);
 void rusiavimas_pavardeList(list<Studentas>& studentaiList);
