@@ -1,28 +1,47 @@
 #include "stud.h"
+#include "mylib.h"
+
+
+double Studentas::galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas) {
+    if (namu_darbai.empty()) return 0.0;
+
+    double sum = accumulate(namu_darbai.begin(), namu_darbai.end(), 0);
+    double vidurkis = sum / namu_darbai.size();
+    return 0.4 * vidurkis + 0.6 * egzaminas;
+}
+
+double Studentas::galutineMediana(vector<int> namu_darbai, int egzaminas) {
+    if (namu_darbai.empty()) return 0.0;
+
+    sort(namu_darbai.begin(), namu_darbai.end());
+    double mediana = namu_darbai.size() % 2 == 0 ?
+        (namu_darbai[namu_darbai.size() / 2 - 1] + namu_darbai[namu_darbai.size() / 2]) / 2.0
+        : namu_darbai[namu_darbai.size() / 2];
+    return 0.4 * mediana + 0.6 * egzaminas;
+}
+
 
 void isvestis(const vector<Studentas>& studentai, int pasirinkimas) {
     cout << left << setw(15) << "Pavarde"
         << left << setw(15) << "Vardas"
         << left << setw(20) << "Galutinis (Vid.)"
         << left << setw(20) << "Galutinis (Med.)"
-        << left << setw(20) << "Atmintis" << endl;
+        << left << setw(20) << "Adresas" << endl;
 
     cout << "---------------------------------------------------------------------------------" << endl;
 
     for (const auto& s : studentai) {
-        if (s.namu_darbai.empty()) {
-            cerr << "Klaida: Studentas " << s.vardas << " " << s.pavarde << " neturi namu darbu balu." << endl;
+        if (s.getNamuDarbai().empty() || s.getEgzaminas() == 0) {
+            cerr << "Klaida: Studentas " << s.getVardas() << " " << s.getPavarde() << " turi netinkamus duomenis." << endl;
             continue;
         }
 
-        double galutinisVid = galutinisVidurkis(s.namu_darbai, s.egzaminas);
-        double galutinisMed = galutineMediana(s.namu_darbai, s.egzaminas);
+        double galutinisVid = Studentas::galutinisVidurkis(s.getNamuDarbai(), s.getEgzaminas());
+        double galutinisMed = Studentas::galutineMediana(s.getNamuDarbai(), s.getEgzaminas());
 
-        // Studentø informacijos iðvedimas
-        cout << left << setw(15) << s.pavarde
-            << left << setw(15) << s.vardas;
+        cout << left << setw(15) << s.getPavarde()
+            << left << setw(15) << s.getVardas();
 
-        // Galutinis balas, priklausomai nuo pasirinkimo
         if (pasirinkimas == 1) {
             cout << fixed << setprecision(2) << setw(20) << galutinisVid
                 << setw(20) << "-";
@@ -32,45 +51,10 @@ void isvestis(const vector<Studentas>& studentai, int pasirinkimas) {
                 << fixed << setprecision(2) << setw(20) << galutinisMed;
         }
 
-        // Atminties adresas
         cout << setw(20) << &s;
-
-        // Perëjimas á naujà eilutæ tik po visø laukø
         cout << endl;
     }
 }
-
-
-double galutinisVidurkis(const vector<int>& namu_darbai, int egzaminas) {
-    if (namu_darbai.empty()) return 0.0;
-
-    double sum = std::accumulate(namu_darbai.begin(), namu_darbai.end(), 0);
-    double vidurkis = sum / namu_darbai.size();
-    double galutinis = 0.4 * vidurkis + 0.6 * egzaminas;
-
-    return galutinis;
-}
-
-double galutineMediana(vector<int> namu_darbai, int egzaminas) {
-    if (namu_darbai.empty()) return 0.0;
-
-    sort(namu_darbai.begin(), namu_darbai.end());
-    double mediana;
-    int dydis = namu_darbai.size();
-
-    if (dydis % 2 == 0) {
-        mediana = (namu_darbai[dydis / 2 - 1] + namu_darbai[dydis / 2]) / 2.0;
-    }
-    else {
-        mediana = namu_darbai[dydis / 2];
-    }
-
-    double galutinis = 0.4 * mediana + 0.6 * egzaminas;
-
-    return galutinis;
-}
-
-
 
 
 void generuotiAtsitiktiniusRezultatus(Studentas& s) {
@@ -78,76 +62,56 @@ void generuotiAtsitiktiniusRezultatus(Studentas& s) {
     mt19937 gen(rd());
     uniform_int_distribution<> dist(1, 10);
 
-    for (int i = 0; i < 5; i++) {
-        int balas = dist(gen);
-        s.namu_darbai.push_back(balas);
+    vector<int> namu_darbai;
+    for (int i = 0; i < 5; i++) { 
+        namu_darbai.push_back(dist(gen));
     }
 
-    s.egzaminas = dist(gen);
+    s.setNamuDarbai(namu_darbai);
+    s.setEgzaminas(dist(gen));
 }
 
 
 void nuskaitytiIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai) {
     try {
         ifstream failas(failoPavadinimas);
-
         if (!failas.is_open()) {
             throw runtime_error("Nepavyko atidaryti failo!");
         }
 
-        string eilute;
-        getline(failas, eilute);
-
         string vardas, pavarde;
         while (failas >> vardas >> pavarde) {
-            Studentas s;
-            s.vardas = vardas;
-            s.pavarde = pavarde;
-
-            int balas;
             vector<int> namuDarbai;
+            int balas;
 
             while (failas >> balas) {
-                if (balas == -1) {
-                    break;
-                }
+                if (balas == -1) break;
                 namuDarbai.push_back(balas);
             }
 
-            if (!namuDarbai.empty()) {
-                s.egzaminas = namuDarbai.back();
-                namuDarbai.pop_back();
-            }
-            else {
+            if (namuDarbai.empty()) {
                 throw runtime_error("Klaida faile: nerasta namu darbu arba egzamino balu.");
             }
 
-            s.namu_darbai = namuDarbai;
+            int egzaminas = namuDarbai.back();
+            namuDarbai.pop_back();
+            Studentas s(vardas, pavarde, namuDarbai, egzaminas);
+
             studentai.push_back(s);
-
-            failas.clear();
-
         }
-
 
         failas.close();
     }
-    catch (const ifstream::failure& e) {
-        cerr << "Klaida: nepavyko nuskaityti failo. Priezastis: " << e.what() << endl;
-        throw;
-    }
-    catch (const runtime_error& e) {
+    catch (const exception& e) {
         cerr << "Klaida: " << e.what() << endl;
-        throw;
     }
 }
 
+
 bool palyginimas(const Studentas& a, const Studentas& b) {
-    if (a.pavarde == b.pavarde) {
-        return a.vardas < b.vardas;
-    }
-    return a.pavarde < b.pavarde;
+    return (a.getPavarde() == b.getPavarde()) ? a.getVardas() < b.getVardas() : a.getPavarde() < b.getPavarde();
 }
+
 
 void rusiavimas(vector<Studentas>& studentai) {
     sort(studentai.begin(), studentai.end(), palyginimas);
