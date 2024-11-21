@@ -2,11 +2,11 @@
 #include "failai.h"
 
 
+
 void atmintis(const vector<Studentas>& v, const string& name) {
     size_t memory_in_bytes = v.capacity() * sizeof(Studentas);
     cout << "Naudojama atmintis " << name << ": " << memory_in_bytes << " baitai" << endl;
 }
-
 
 void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis) {
     ofstream failas(failoPavadinimas);
@@ -23,22 +23,18 @@ void generuotiStudentuDuomenis(const string& failoPavadinimas, int kiekis) {
         << endl;
 
     for (int i = 1; i <= kiekis; ++i) {
-        Studentas s;
-        s.vardas = "Vardas" + to_string(i);
-        s.pavarde = "Pavarde" + to_string(i);
-
-        generuotiAtsitiktiniusRezultatus(s);
-
+        Studentas s("Vardas" + to_string(i), "Pavarde" + to_string(i), {}, 0); 
+        generuotiAtsitiktiniusRezultatus(s); 
 
         failas << left
-            << setw(15) << s.pavarde
-            << setw(15) << s.vardas;
+            << setw(15) << s.getPavarde()
+            << setw(15) << s.getVardas();
 
-        for (const auto& pazymys : s.namu_darbai) {
+        for (const auto& pazymys : s.getNamuDarbai()) {
             failas << setw(6) << pazymys;
         }
 
-        failas << setw(10) << s.egzaminas << endl;
+        failas << setw(10) << s.getEgzaminas() << endl;
     }
 
     failas.close();
@@ -58,12 +54,11 @@ void nuskaitytiStudentus(const string& failoPavadinimas, vector<Studentas>& stud
     getline(failas, praleistiEilute);
 
     while (failas >> pavarde >> vardas >> namuDarbai[0] >> namuDarbai[1] >> namuDarbai[2] >> namuDarbai[3] >> namuDarbai[4] >> egzaminas) {
-        Studentas s;
-        s.vardas = vardas;
-        s.pavarde = pavarde;
-        s.namu_darbai = namuDarbai;
-        s.egzaminas = egzaminas;
-        s.galutinis = (pasirinkimas == 1) ? galutinisVidurkis(s.namu_darbai, s.egzaminas) : galutineMediana(s.namu_darbai, s.egzaminas);
+        Studentas s(vardas, pavarde, namuDarbai, egzaminas);
+        double galutinis = (pasirinkimas == 1)
+            ? Studentas::galutinisVidurkis(s.getNamuDarbai(), s.getEgzaminas())
+            : Studentas::galutineMediana(s.getNamuDarbai(), s.getEgzaminas());
+        s.setGalutinis(galutinis);
         studentai.push_back(s);
     }
     failas.close();
@@ -74,7 +69,7 @@ void rusiuotiStudentus(vector<Studentas>& studentai, int pasirinkimas, int rusiu
 
     if (strategija == 1) {
         for (const auto& studentas : studentai) {
-            if (studentas.galutinis < 5.0) {
+            if (studentas.getGalutinis() < 5.0) {
                 vargsiukai.push_back(studentas);
             }
             else {
@@ -83,31 +78,27 @@ void rusiuotiStudentus(vector<Studentas>& studentai, int pasirinkimas, int rusiu
         }
     }
     else if (strategija == 2) {
-        auto it = remove_if(studentai.begin(), studentai.end(),
-            [&vargsiukai](Studentas& studentas) {
-                if (studentas.galutinis < 5.0) {
-                    vargsiukai.push_back(studentas);
-                    return true;
-                }
-                return false;
-            });
-        studentai.erase(it, studentai.end()); // Pağaliname „vargğiukus“ iğ `studentai`
-        kietiakiai = move(studentai);         // Perkeliame likusius á `kietiakiai`
-
-        // Visiğkai atlaisviname `studentai` po perkelimo
-        vector<Studentas>().swap(studentai);
+        for (auto it = studentai.begin(); it != studentai.end(); ) {
+            if (it->getGalutinis() < 5.0) {
+                vargsiukai.push_back(move(*it));
+                it = studentai.erase(it);
+            }
+            else {
+                ++it;
+            }
+        }
+        kietiakiai = studentai;
+        studentai.clear();
     }
     else if (strategija == 3) {
         auto it = stable_partition(studentai.begin(), studentai.end(),
-            [](const Studentas& s) { return s.galutinis < 5.0; });
+            [](const Studentas& s) { return s.getGalutinis() < 5.0; });
         vargsiukai.assign(studentai.begin(), it);
         kietiakiai.assign(it, studentai.end());
 
-        // Atlaisviname `studentai`
         vector<Studentas>().swap(studentai);
     }
 
-    // Rûğiavimas po skirstymo pagal pasirinktà kriterijø
     if (rusiuotiPagal == 1) {
         rusiavimas_vardas(vargsiukai);
         rusiavimas_vardas(kietiakiai);
@@ -125,13 +116,6 @@ void rusiuotiStudentus(vector<Studentas>& studentai, int pasirinkimas, int rusiu
     }
 }
 
-
-
-
-
-
-
-
 void surusioti_failai(vector<Studentas>& studentai, const string& failoPavadinimas) {
     ofstream failas(failoPavadinimas);
 
@@ -146,12 +130,11 @@ void surusioti_failai(vector<Studentas>& studentai, const string& failoPavadinim
         << setw(10) << "Galutinis"
         << endl;
 
-
     for (const auto& studentas : studentai) {
         failas << left
-            << setw(20) << studentas.pavarde
-            << setw(20) << studentas.vardas
-            << setw(10) << fixed << setprecision(2) << studentas.galutinis
+            << setw(20) << studentas.getPavarde()
+            << setw(20) << studentas.getVardas()
+            << setw(10) << fixed << setprecision(2) << studentas.getGalutinis()
             << endl;
     }
 
@@ -159,7 +142,7 @@ void surusioti_failai(vector<Studentas>& studentai, const string& failoPavadinim
 }
 
 bool palyginimas_vardas(const Studentas& a, const Studentas& b) {
-    return a.vardas < b.vardas;
+    return a.getVardas() < b.getVardas();
 }
 
 void rusiavimas_vardas(vector<Studentas>& studentai) {
@@ -167,7 +150,7 @@ void rusiavimas_vardas(vector<Studentas>& studentai) {
 }
 
 bool palyginimas_pavarde(const Studentas& a, const Studentas& b) {
-    return a.pavarde < b.pavarde;
+    return a.getPavarde() < b.getPavarde();
 }
 
 void rusiavimas_pavarde(vector<Studentas>& studentai) {
@@ -175,7 +158,7 @@ void rusiavimas_pavarde(vector<Studentas>& studentai) {
 }
 
 bool palyginimas_pazimys(const Studentas& a, const Studentas& b) {
-    return a.galutinis < b.galutinis;
+    return a.getGalutinis() < b.getGalutinis();
 }
 
 void rusiavimas_pazimys(vector<Studentas>& studentai) {
@@ -187,14 +170,12 @@ void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasiri
 
     auto total_start = high_resolution_clock::now();
 
-
     auto start = high_resolution_clock::now();
     vector<Studentas> studentai;
     nuskaitytiStudentus(failoPavadinimas, studentai, pasirinkimas);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start).count() / 1e6;
     cout << "Duomenu nuskaitymas uztruko: " << fixed << setprecision(6) << duration << "s\n";
-
 
     vector<Studentas> vargsiukai, kietiakiai;
     start = high_resolution_clock::now();
@@ -226,10 +207,3 @@ void matuotiVeikimoGreiti(const string& failoPavadinimas, int kiekis, int pasiri
     atmintis(kietiakiai, "kietiakiai");
     cout << "\n" << endl;
 }
-
-
-
-
-
-
-
