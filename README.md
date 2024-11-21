@@ -9,10 +9,20 @@
 | **V1.0**      | std::vector  | 1 | 0.769003s  | 7.896289s    |
 | **V1.1**      | std::vector   |1  | 0.792843s  | 8.092771s    | 
 
+<br>
+
+**Eksperimentinė analizė atlikta, įvertinant kompiliatoriaus optimizavimo lygius, nurodytus flag'ais: O1, O2, O3.**
+|              | **V1.0 exe failo dydis**    | **V1.0 greitis 100000**   | **V1.0 greitis 1000000**  | **V1.1 exe failo dydis**  | **V1.1 greitis 100000** | **V1.1 greitis 1000000** |
+|----------------------------|-------------|-------------|-------------|--------------|--------------|--------------|
+| **O1**      |   | 0.787582s  | 8.049440s  |    |    |
+| **O2**      | 0.020724s   | 0.078206s   | 0.714712s  | 7.526429s    | 76.232662s   |
+| **O3**       |0.019869s   | 0.076956s  | 0.751893s  | 7.796333s    | 78.954670s  |
 
 
 
 
+<br>
+<br>
 
 ### Programos įdiegimo ir paleidimo instrukcija
 **1.** Atsisiųskite V1.0 releas'o zip failą.
