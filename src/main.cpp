@@ -17,7 +17,6 @@ int main() {
     }
 
     if (konteinerioPasirinkimas == 1) {
-        vector<Studentas> studentai;
         cout << "Pasirinkite: rankinis ivestis (1), skaitymas is failo (2), generavimas ir laiko matavimas (3): ";
         while (!(cin >> pasirinkimas) || (pasirinkimas < 1 || pasirinkimas > 3)) {
             cout << "Klaida: Prasome ivesti 1, 2 arba 3: ";
@@ -26,7 +25,6 @@ int main() {
         }
 
         if (pasirinkimas == 1) {
-            int n;
             cout << "Iveskite studentu skaiciu: ";
             while (!(cin >> n) || n <= 0) {
                 cout << "Klaida: Prasome ivesti teisinga skaiciu: ";
@@ -35,11 +33,14 @@ int main() {
             }
 
             for (int i = 0; i < n; i++) {
-                Studentas s;
+                string vardas, pavarde;
+                vector<int> namu_darbai;
+                int egzaminas;
+
                 cout << "Iveskite studento " << i + 1 << " varda: ";
-                cin >> s.vardas;
+                cin >> vardas;
                 cout << "Iveskite studento " << i + 1 << " pavarde: ";
-                cin >> s.pavarde;
+                cin >> pavarde;
 
                 cout << "Iveskite namu darbu balus (ivesti neigiama skaiciu, norint baigti):" << endl;
                 while (true) {
@@ -47,15 +48,18 @@ int main() {
                     cout << "Namu darbu balas: ";
                     cin >> rezultatas;
                     if (rezultatas < 0) break;
-                    if (rezultatas >= 1 && rezultatas <= 10) s.namu_darbai.push_back(rezultatas);
+                    if (rezultatas >= 1 && rezultatas <= 10) namu_darbai.push_back(rezultatas);
                     else cout << "Klaida: Prasome ivesti skaiciu tarp 1 ir 10." << endl;
                 }
+
                 cout << "Iveskite egzamino bala: ";
-                while (!(cin >> s.egzaminas) || s.egzaminas < 1 || s.egzaminas > 10) {
+                while (!(cin >> egzaminas) || egzaminas < 1 || egzaminas > 10) {
                     cout << "Klaida: Prasome ivesti teisinga egzamino bala (nuo 1 iki 10): ";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
+
+                Studentas s(vardas, pavarde, namu_darbai, egzaminas);
                 studentai.push_back(s);
             }
 
@@ -114,7 +118,7 @@ int main() {
             }
 
             int strategija;
-            cout << "Kokia strategija noretumet naudoti (1, 2, 3)?\n";
+            cout << "Kokia strategija noretumet naudoti (1, 2, 3)? ";
             while (!(cin >> strategija) || (strategija < 1 || strategija > 3)) {
                 cout << "Klaida: Prasome ivesti 1, 2 arba 3: ";
                 cin.clear();
@@ -136,7 +140,6 @@ int main() {
         }
     }
     else if (konteinerioPasirinkimas == 2) {
-        list<Studentas> studentaiList;
         cout << "Pasirinkite: rankinis ivestis (1), skaitymas is failo (2), generavimas ir laiko matavimas (3): ";
         while (!(cin >> pasirinkimas) || (pasirinkimas < 1 || pasirinkimas > 3)) {
             cout << "Klaida: Prasome ivesti 1, 2 arba 3: ";
@@ -145,7 +148,6 @@ int main() {
         }
 
         if (pasirinkimas == 1) {
-            int n;
             cout << "Iveskite studentu skaiciu: ";
             while (!(cin >> n) || n <= 0) {
                 cout << "Klaida: Prasome ivesti teisinga skaiciu: ";
@@ -154,11 +156,14 @@ int main() {
             }
 
             for (int i = 0; i < n; i++) {
-                Studentas sl;
+                string vardas, pavarde;
+                vector<int> namu_darbai;
+                int egzaminas;
+
                 cout << "Iveskite studento " << i + 1 << " varda: ";
-                cin >> sl.vardas;
+                cin >> vardas;
                 cout << "Iveskite studento " << i + 1 << " pavarde: ";
-                cin >> sl.pavarde;
+                cin >> pavarde;
 
                 cout << "Iveskite namu darbu balus (ivesti neigiama skaiciu, norint baigti):" << endl;
                 while (true) {
@@ -166,19 +171,20 @@ int main() {
                     cout << "Namu darbu balas: ";
                     cin >> rezultatas;
                     if (rezultatas < 0) break;
-                    if (rezultatas >= 1 && rezultatas <= 10) sl.namu_darbai.push_back(rezultatas);
+                    if (rezultatas >= 1 && rezultatas <= 10) namu_darbai.push_back(rezultatas);
                     else cout << "Klaida: Prasome ivesti skaiciu tarp 1 ir 10." << endl;
                 }
 
                 cout << "Iveskite egzamino bala: ";
-                while (!(cin >> sl.egzaminas) || sl.egzaminas < 1 || sl.egzaminas > 10) {
+                while (!(cin >> egzaminas) || egzaminas < 1 || egzaminas > 10) {
                     cout << "Klaida: Prasome ivesti teisinga egzamino bala (nuo 1 iki 10): ";
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
+
+                Studentas sl(vardas, pavarde, namu_darbai, egzaminas);
                 studentaiList.push_back(sl);
             }
-
 
             int galutinis;
             cout << "Ar norite skaiciuoti galutini bala pagal vidurki (1) ar mediana (2)? ";
@@ -235,7 +241,7 @@ int main() {
             }
 
             int strategija;
-            cout << "Kokia strategija noretumet naudoti (1, 2, 3)?\n";
+            cout << "Kokia strategija noretumet naudoti (1, 2, 3)? ";
             while (!(cin >> strategija) || (strategija < 1 || strategija > 3)) {
                 cout << "Klaida: Prasome ivesti 1, 2 arba 3: ";
                 cin.clear();
