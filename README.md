@@ -4,10 +4,10 @@
 1.0 versijos failai buvo paimti kaip pagrindas ir pakoreguoti taip, kad duomenų tipas "struct" pakeistas į "class" tipą, o fukcijos pakoreguotos pagal reikalavimus. 
 
 **Bendro vykdymo laiko palyginimas**
-| Versija            | Konteineris   | Strategija  | **100000**  | **1000000**  |
+| Versija            | Realizacija  | Strategija  | **100000**  | **1000000**  |
 |----------------------------|-------------|-------------|-------------|--------------|
-| **V1.0**      | std::vector  | 1 | 0.769003s  | 7.896289s    |
-| **V1.1**      | std::vector   |1  | 0.792843s  | 8.092771s    | 
+| **V1.0**      | struct  | 1 | 0.769003s  | 7.896289s    |
+| **V1.1**      | class   |1  | 0.792843s  | 8.092771s    | 
 
 <br>
 
