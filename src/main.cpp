@@ -4,9 +4,80 @@
 #include "listai.h"
 
 int main() {
+    int pasirinkimas;
+    cout << "Pasirinkite: Paleisti programa (1) ar Demonstruoti programa (2): ";
+while (!(cin >> pasirinkimas) || (pasirinkimas != 1 && pasirinkimas != 2)) {
+    cout << "Klaida: Prašome įvesti 1 arba 2: ";
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+if (pasirinkimas == 2) {
+    cout << "\n..... Studentu valdymo sistemos demonstracija .....\n\n";
+
+
+    cout << "... Demonstracija: Rule of Three ...\n";
+    Studentas originalus("Vardas", "Pavarde", { 10, 9, 8 }, 9);
+    cout << "Originalas:\n" << originalus << endl;
+
+    Studentas kopija = originalus;
+    cout << "Kopija (kopijavimo konstruktorius):\n" << kopija << endl;
+
+    Studentas priskirtas;
+    priskirtas = originalus;
+    cout << "Priskirtas objektas (priskyrimo operatorius):\n" << priskirtas << endl;
+
+    cout << "Rule of Three demonstracija baigta.\n\n";
+
+    cout << "... Demonstracija: Ivesties/isvesties operatoriai ...\n";
+    Studentas ivestis;
+    cout << "Iveskite studento duomenis rankiniu budu:\n";
+    cin >> ivestis;
+    cout << "\nIvestas studentas:\n" << ivestis << endl;
+
+    cout << "Ivesties/isvesties operatoriu demonstracija baigta.\n\n";
+
+
+    cout << "... Demonstracija: Studentu generavimas ...\n";
+    Studentas sugeneruotas = Studentas::generuotiStudentuDuomenis();
+    cout << "Sugeneruotas studentas:\n" << sugeneruotas << endl;
+
+    cout << "Studentu generavimo demonstracija baigta.\n\n";
+
+    cout << "... Demonstracija: Failu operacijos ...\n";
+    vector<Studentas> studentai = {
+            Studentas("Vardas", "Pavarde", {10, 9, 8}, 9),
+            Studentas("Vardenis", "Pavardenis", {8, 7, 6}, 7),
+            Studentas::generuotiStudentuDuomenis()
+    };
+
+    string failoVardas = "testas.txt";
+    Studentas::rasytiIFaila(studentai, failoVardas);
+    cout << "Studentai irasyti i faila '" << failoVardas << "'.\n";
+
+    auto nuskaitytiStudentai = Studentas::nuskaitytiIsFailo(failoVardas);
+
+    cout << "Studentai perskaityti is failo '" << failoVardas << "':\n";
+    for (const auto& s : nuskaitytiStudentai) {
+        cout << s << endl;
+    }
+
+    cout << "\nPerskaityti studentai:\n";
+    for (const auto& s : studentai) {
+        cout << s << endl;
+    }
+
+    cout << "Failu operaciju demonstracija baigta.\n\n";
+
+    cout << "..... Demonstracija baigta .....\n";
+
+    return 0;
+}
+
+    
     vector<Studentas> studentai;
     list<Studentas> studentaiList;
-    int n, pasirinkimas, konteinerioPasirinkimas;
+    int n, konteinerioPasirinkimas;
     string name = "studentai.txt";
 
     cout << "Pasirinkite konteineri: vector (1), list (2): ";
