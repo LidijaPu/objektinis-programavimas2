@@ -71,7 +71,87 @@ public:
      return out;
  }
 
+    friend istream& operator>>(istream& in, Studentas& s) {
+        if (&in == &cin) {
+            cout << "Iveskite studento pavarde: ";
+        }
+        in >> s.pavarde_;
 
+        if (&in == &cin) {
+            cout << "Iveskite studento varda: ";
+        }
+        in >> s.vardas_;
+
+        if (&in == &cin) {
+            cout << "Iveskite namu darbu balus (ivesti neigiama skaiciu, norint baigti):\n";
+        }
+        s.nd_.clear();
+        int balas;
+        while (in >> balas && balas >= 0) { 
+            s.nd_.push_back(balas);
+            if (&in == &cin) {
+                cout << "Namu darbu balas: ";
+            }
+        }
+
+        if (&in == &cin) {
+            cout << "Iveskite egzamino bala: ";
+        }
+        in.clear();
+        in >> s.egzaminas_;
+
+        s.galutinis_ = Studentas::galutinisVidurkis(s.nd_, s.egzaminas_);
+
+        return in;
+    }
+
+    static Studentas generuotiStudentuDuomenis() {
+        Studentas s;
+        s.vardas_ = "Vardas" + to_string(rand() % 100 + 1);
+        s.pavarde_ = "Pavarde" + to_string(rand() % 100 + 1);
+        s.egzaminas_ = rand() % 10 + 1;
+
+        for (int i = 0; i < 3; i++) {
+            s.nd_.push_back(rand() % 10 + 1); 
+        }
+
+        s.galutinis_ = Studentas::galutinisVidurkis(s.nd_, s.egzaminas_);
+        return s;
+    }
+
+    static vector<Studentas> nuskaitytiIsFailo(const string& failoVardas) {
+        ifstream failas(failoVardas);
+        vector<Studentas> studentai;
+
+        if (!failas) {
+            cerr << "Klaida: Nepavyko atidaryti failo '" << failoVardas << "'.\n";
+            return studentai;
+        }
+
+        Studentas s;
+        while (failas >> s) { 
+            studentai.push_back(s);
+        }
+
+        if (failas.bad()) { 
+            cerr << "Klaida: Failo skaitymo metu įvyko klaida.\n";
+        }
+
+        failas.close();
+        return studentai;
+    }
+
+    static void rasytiIFaila(const vector<Studentas>& studentai, const string& failoVardas) {
+        ofstream failas(failoVardas);
+        if (!failas) {
+            cerr << "Nepavyko sukurti failo: " << failoVardas << endl;
+            return;
+        }
+        for (const auto& s : studentai) {
+            failas << s << endl;
+        }
+        failas.close();
+    }
 
 
 
