@@ -3,6 +3,23 @@
 
 #include "mylib.h";
 
+class Zmogus {
+protected:
+    string vardas_;
+    string pavarde_;
+
+public:
+    Zmogus() : vardas_(""), pavarde_("") {}
+    Zmogus(const string& vardas, const string& pavarde) : vardas_(vardas), pavarde_(pavarde) {}
+    virtual ~Zmogus() {}
+
+    string getVardas() const { return vardas_; }
+    string getPavarde() const { return pavarde_; }
+
+    virtual void isvestiInformacija() const = 0; 
+};
+
+
 
 class Studentas {
 private:
