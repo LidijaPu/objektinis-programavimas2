@@ -12,5 +12,6 @@ Bandant sukurti Zmogus klasės objektą, programa nesukompiliuos, o kompiliatori
 ![image](https://github.com/user-attachments/assets/11650c31-b69d-4e25-8769-7f8a1ee38b31)
 
 Norėdami pamatyti šią klaidą, galite iš main.cpp failo pašalinti šį komentarą (33 eilutė):
+```cpp
 //      Zmogus zmogus("Vardas", "Pavarde");
 
