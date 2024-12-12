@@ -130,7 +130,24 @@ Versijoje 1.5 buvo sukurta bazinė abstrakti klasė **Zmogus**, kuri atitinka vi
 Kadangi **Zmogus** yra abstrakti klasė, jos objektų kurti negalima. Objekto kūrimas galimas tik per **Studentas** klasę, kuri paveldi iš **Zmogus**. Studentas klasė realizuoja visas bazinės klasės savybes bei turi savo specifinius metodus.
 
 ### _V2.0_
-Naudojant Doxygen, sukurta programos dokumentacija, html ir pdf formatais Taip pat atlikti Unit testai, naudojant Google Test framework'ą, kuriais patikrinta funkcijos galutinisVidurkis skaičiavimo tikslumą ir Studentas klasės konstruktoriaus veikimą, užtikrinant, kad reikšmės (vardas, pavardė, galutinis pažymys) priskiriamos teisingai. 
+Naudojant **Doxygen**, sukurta programos dokumentacija, **html** ir **pdf** formatais Taip pat atlikti **Unit testai**, naudojant **Google Test** framework'ą, kuriais patikrinta funkcijos **galutinisVidurkis** skaičiavimo tikslumą ir **Studentas** klasės konstruktoriaus veikimą, užtikrinant, kad reikšmės (vardas, pavardė, galutinis pažymys) priskiriamos teisingai. 
+
+```cpp
+// Testuoja funkcijos galutinisVidurkis skaičiavimo tikslumą
+TEST(StudentasTest, GalutinisVidurkis) {
+    vector<int> nd = { 8, 9, 10 };
+    int egzaminas = 9;          
+    ASSERT_NEAR(Studentas::galutinisVidurkis(nd, egzaminas), 9, 0.01);
+}
+
+// Testuoja Studentas klasės konstruktoriaus veikimą
+TEST(StudentasTest, SukurimoTestas) {
+    Studentas s("Jonas", "Jonaitis", { 8, 9, 10 }, 9);
+    EXPECT_EQ(s.getVardas(), "Jonas");
+    EXPECT_EQ(s.getPavarde(), "Jonaitis");
+    ASSERT_NEAR(s.getGalutinis(), 9, 0.01);
+}
+```
 
 
 
