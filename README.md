@@ -149,6 +149,7 @@ TEST(StudentasTest, SukurimoTestas) {
 }
 ```
 
+![image](https://github.com/user-attachments/assets/1eebf326-70e0-4572-90b4-34899202f400)
 
 
 
